@@ -15,15 +15,18 @@ import argparse
 import datetime
 import shutil
 
-def prepro(basedir):
-    #something
-    print('Hello data in the path '+basedir)
-def main():
-    #load in all global variables prepro needs, right now this is just the path to the data
-    basedir='/Users/Sarah/desktop/fmri_workshop/'
-    prepro(basedir) #call prepro to do stuff
     
-main()#call main to execute all our globals then run our prepro function
-        
+def prepro(basedir):
+    for item in glob.glob(os.path.join(basedir,'sub-*','func','sub-*.nii.gz')):
+        input=item
+        print item
+        output_path=item.strip('.nii.gz')
+        output=output_path+('_brain')
+        print output
+        os.system("/usr/local/fsl/bin/bet %s %s -F"%(input, output))
+        #pdb.set_trace()
+def main():
+    basedir='/Users/Sarah/desktop/data/ds000030_R1.0.5/'
+    prepro(basedir)
 
-
+main()
